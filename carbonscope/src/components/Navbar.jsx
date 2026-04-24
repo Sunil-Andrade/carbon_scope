@@ -20,8 +20,8 @@ function Navbar() {
           How it Works
         </a>
 
-        <a href="#impact" className="hover:text-primary text-sm font-medium">
-          Impact
+        <a href="#user-flow" className="hover:text-primary text-sm font-medium">
+          User Flow
         </a>
       </nav>
 
@@ -30,7 +30,7 @@ function Navbar() {
           Register
         </Link>
 
-        <Link to="/login" className="bg-gray-600 px-4 py-2 rounded">
+        <Link to="/register" className="bg-gray-600 px-4 py-2 rounded">
           Login
         </Link>
       </div>

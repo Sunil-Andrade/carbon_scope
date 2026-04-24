@@ -1,24 +1,16 @@
-import { useState } from "react";
-
-const NAV_ITEMS = [
-  { icon: "▦", label: "Dashboard", active: true },
-  { icon: "↑", label: "Submit Action" },
-  { icon: "✔", label: "Verification" },
-  { icon: "◈", label: "Carbon Credits" },
-  { icon: "↗", label: "Reports" },
-  { icon: "⛁", label: "Blockchain Records" },
-];
+// src/pages/Dashboard.jsx
+import Sidebar from "../components/Sidebar";
 
 const STATS = [
-  { label: "Total Actions", value: "1,284", badge: "+12%", type: "green" },
-  { label: "Verified Actions", value: "942", badge: "+8%", type: "green" },
-  { label: "Pending", value: "342", badge: "-5%", type: "orange" },
-  { label: "Carbon Credits", value: "12.5k", badge: "+15%", type: "green" },
+  { label: "Total Actions", value: "1,284", badge: "+12%", green: true },
+  { label: "Verified Actions", value: "942", badge: "+8%", green: true },
+  { label: "Pending", value: "342", badge: "-5%", green: false },
+  { label: "Carbon Credits", value: "12.5k", badge: "+15%", green: true },
   {
     label: "CO2 Impact",
     value: "450 T",
     badge: "+10%",
-    type: "green",
+    green: true,
     accent: true,
   },
 ];
@@ -67,50 +59,10 @@ const ACTIONS = [
 ];
 
 export default function Dashboard() {
-  const [activeNav, setActiveNav] = useState("Dashboard");
-
   return (
-    <div className="flex min-h-screen bg-slate-100 font-sans text-sm">
-      {/* Sidebar */}
-      <aside className="w-52 bg-white border-r border-slate-200 flex flex-col flex-shrink-0">
-        <div className="p-4 flex items-center gap-2 border-b border-slate-200">
-          <div className="w-8 h-8 rounded-lg bg-green-500 flex items-center justify-center text-white text-base">
-            🌿
-          </div>
-          <div>
-            <div className="font-medium text-slate-900 text-sm">EcoBlock</div>
-            <div className="text-[10px] text-slate-500">SaaS Dashboard</div>
-          </div>
-        </div>
-        <nav className="flex-1 p-2 flex flex-col gap-0.5">
-          {NAV_ITEMS.map(({ icon, label }) => (
-            <button
-              key={label}
-              onClick={() => setActiveNav(label)}
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs transition-colors w-full text-left ${
-                activeNav === label
-                  ? "bg-green-50 text-green-700 font-medium"
-                  : "text-slate-500 hover:bg-slate-100"
-              }`}
-            >
-              <span className="w-3 text-center">{icon}</span>
-              {label}
-            </button>
-          ))}
-        </nav>
-        <div className="p-2 border-t border-slate-200 flex flex-col gap-0.5">
-          {["Organization", "Settings"].map((item) => (
-            <button
-              key={item}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-slate-500 hover:bg-slate-100 w-full text-left"
-            >
-              {item}
-            </button>
-          ))}
-        </div>
-      </aside>
+    <div className="flex min-h-screen bg-slate-100 font-sans">
+      <Sidebar />
 
-      {/* Main */}
       <main className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
         <header className="h-12 bg-white border-b border-slate-200 px-5 flex items-center justify-between flex-shrink-0">
@@ -139,7 +91,6 @@ export default function Dashboard() {
           </div>
         </header>
 
-        {/* Content */}
         <div className="flex-1 overflow-y-auto p-5 flex flex-col gap-4">
           {/* Welcome */}
           <div>
@@ -154,7 +105,7 @@ export default function Dashboard() {
 
           {/* Stats */}
           <div className="grid grid-cols-5 gap-3">
-            {STATS.map(({ label, value, badge, type, accent }) => (
+            {STATS.map(({ label, value, badge, green, accent }) => (
               <div
                 key={label}
                 className={`bg-white rounded-xl border border-slate-200 p-4 ${accent ? "border-l-2 border-l-green-500" : ""}`}
@@ -165,11 +116,7 @@ export default function Dashboard() {
                     {value}
                   </span>
                   <span
-                    className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full ${
-                      type === "green"
-                        ? "bg-green-50 text-green-700"
-                        : "bg-orange-50 text-orange-700"
-                    }`}
+                    className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full ${green ? "bg-green-50 text-green-700" : "bg-orange-50 text-orange-700"}`}
                   >
                     {badge}
                   </span>
@@ -180,7 +127,6 @@ export default function Dashboard() {
 
           {/* Charts */}
           <div className="grid grid-cols-2 gap-4">
-            {/* Bar chart */}
             <div className="bg-white rounded-xl border border-slate-200 p-4">
               <div className="flex justify-between items-center mb-4">
                 <span className="text-sm font-medium text-slate-900">
@@ -221,7 +167,6 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Progress bars */}
             <div className="bg-white rounded-xl border border-slate-200 p-4">
               <div className="text-sm font-medium text-slate-900 mb-4">
                 Activity distribution
@@ -304,11 +249,7 @@ export default function Dashboard() {
                     </td>
                     <td className="px-4 py-3">
                       <span
-                        className={`text-[9px] font-medium px-2 py-0.5 rounded-full uppercase tracking-wide ${
-                          status === "Verified"
-                            ? "bg-green-50 text-green-700"
-                            : "bg-slate-100 text-slate-500"
-                        }`}
+                        className={`text-[9px] font-medium px-2 py-0.5 rounded-full uppercase tracking-wide ${status === "Verified" ? "bg-green-50 text-green-700" : "bg-slate-100 text-slate-500"}`}
                       >
                         {status}
                       </span>
