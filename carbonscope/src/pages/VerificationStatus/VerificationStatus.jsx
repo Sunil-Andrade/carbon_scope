@@ -1,6 +1,6 @@
 // src/pages/VerificationStatus.jsx
 import { useState } from "react";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../../components/common/Sidebar";
 
 const FILTERS = ["All Actions", "Pending", "Approved", "Rejected"];
 

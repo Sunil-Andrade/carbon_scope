@@ -1,5 +1,5 @@
 // src/pages/Dashboard.jsx
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../../components/common/Sidebar";
 
 const STATS = [
   { label: "Total Actions", value: "1,284", badge: "+12%", green: true },
