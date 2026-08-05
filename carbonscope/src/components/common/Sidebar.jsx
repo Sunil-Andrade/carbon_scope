@@ -5,7 +5,7 @@ const NAV_ITEMS = [
   { icon: "▦", label: "Dashboard", to: "/dashboard" },
   // { icon: "❧", label: "Impact Hub", to: "/impact" },
   { icon: "⊕", label: "Submit Action", to: "/submit" },
-  { icon: "✔️", label: "Verification", to: "/verification" },
+ { icon: "✔️", label: "Verification", to: "/status" },
   // { icon: "⚇", label: "Community", to: "/community" },
 ];
 

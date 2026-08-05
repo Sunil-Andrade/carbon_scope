@@ -1,5 +1,8 @@
+
 // src/pages/Dashboard.jsx
+import { useEffect, useState } from "react";
 import Sidebar from "../../components/common/Sidebar";
+import { getAllActivities } from "../../services/activityService";
 
 const STATS = [
   { label: "Total Actions", value: "1,284", badge: "+12%", green: true },
@@ -31,34 +34,24 @@ const ACTIVITIES = [
   { label: "Other actions", pct: 10, color: "#94a3b8" },
 ];
 
-const ACTIONS = [
-  {
-    icon: "🌲",
-    name: "Tree plantation — north sector",
-    date: "Oct 24, 2023",
-    by: "EcoAudit Global",
-    impact: "12.5 T CO2",
-    status: "Verified",
-  },
-  {
-    icon: "♻",
-    name: "Plastics recycling drive",
-    date: "Oct 22, 2023",
-    by: "Pending review",
-    impact: "5.2 T CO2",
-    status: "Pending",
-  },
-  {
-    icon: "☀",
-    name: "Solar panel installation",
-    date: "Oct 18, 2023",
-    by: "VeriGreen Inst.",
-    impact: "45.0 T CO2",
-    status: "Verified",
-  },
-];
+
 
 export default function Dashboard() {
+  const [actions, setActions] = useState([])
+
+  useEffect(() => {
+    async function loadActivities() {
+      try {
+        const data = await getAllActivities()
+        setActions(data)
+      } catch (error) {
+        console.error('Failed to load activities:', error)
+      }
+    }
+
+    loadActivities()
+  }, [])
+
   return (
     <div className="flex min-h-screen bg-slate-100 font-sans">
       <Sidebar />
@@ -225,36 +218,48 @@ export default function Dashboard() {
                 </tr>
               </thead>
               <tbody>
-                {ACTIONS.map(({ icon, name, date, by, impact, status }) => (
-                  <tr
-                    key={name}
-                    className="border-t border-slate-100 hover:bg-slate-50 transition-colors"
-                  >
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-2">
-                        <div className="w-7 h-7 rounded bg-green-50 flex items-center justify-center text-sm">
-                          {icon}
-                        </div>
-                        <span className="text-xs font-medium text-slate-900">
-                          {name}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3 text-xs text-slate-500">{date}</td>
-                    <td className="px-4 py-3 text-xs text-slate-600">{by}</td>
-                    <td
-                      className={`px-4 py-3 text-xs font-medium ${status === "Verified" ? "text-green-700" : "text-slate-500"}`}
-                    >
-                      {impact}
-                    </td>
-                    <td className="px-4 py-3">
-                      <span
-                        className={`text-[9px] font-medium px-2 py-0.5 rounded-full uppercase tracking-wide ${status === "Verified" ? "bg-green-50 text-green-700" : "bg-slate-100 text-slate-500"}`}
-                      >
-                        {status}
-                      </span>
-                    </td>
-                  </tr>
+                {actions.map((action) => (
+                 <tr
+  key={action.id}
+  className="border-t border-slate-100 hover:bg-slate-50 transition-colors"
+>
+  <td className="px-4 py-3">
+    <div className="flex items-center gap-2">
+      <div className="w-7 h-7 rounded bg-green-50 flex items-center justify-center text-sm">
+        🌱
+      </div>
+      <span className="text-xs font-medium text-slate-900">
+        {action.title}
+      </span>
+    </div>
+  </td>
+
+  <td className="px-4 py-3 text-xs text-slate-500">
+    {action.created_at
+      ? new Date(action.created_at).toLocaleDateString()
+      : 'N/A'}
+  </td>
+
+  <td className="px-4 py-3 text-xs text-slate-600">
+    {action.user_name || 'System'}
+  </td>
+
+  <td className="px-4 py-3 text-xs font-medium text-green-700">
+    {action.credits || 0} Credits
+  </td>
+
+  <td className="px-4 py-3">
+    <span
+      className={`text-[9px] font-medium px-2 py-0.5 rounded-full uppercase tracking-wide ${
+        action.status === 'Approved'
+          ? 'bg-green-50 text-green-700'
+          : 'bg-slate-100 text-slate-500'
+      }`}
+    >
+      {action.status || 'Pending'}
+    </span>
+  </td>
+</tr>
                 ))}
               </tbody>
             </table>

@@ -1,4 +1,6 @@
+import { useNavigate } from 'react-router-dom'
 function Hero() {
+  const navigate = useNavigate()
   return (
     <section className="px-6 lg:px-20 py-16">
       <div className="flex flex-col lg:flex-row items-center gap-12">
@@ -13,10 +15,14 @@ function Hero() {
           </p>
 
           <div className="flex gap-4">
-            <button className="px-6 py-3 bg-primary text-white rounded-xl">
+            <button 
+            onClick={() => navigate('/register')}
+            className="px-6 py-3 bg-primary text-white rounded-xl">
               Register Organization
             </button>
-            <button className="px-6 py-3 bg-gray-200 rounded-xl">
+            <button 
+            onClick={() => navigate('/dashboard')}
+            className="px-6 py-3 bg-gray-200 rounded-xl">
               Explore Platform
             </button>
           </div>

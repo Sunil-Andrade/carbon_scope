@@ -1,13 +1,56 @@
-import { useNavigate } from "react-router-dom";
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { registerUser } from '../../services/authService'
 
 function Register() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); // stop page reload
-    navigate("/dashboard"); // go to dashboard
-  };
+  // Form state
+  const [formData, setFormData] = useState({
+    organizationName: '',
+    organizationType: '',
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  })
 
+  // Handle input changes
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    if (formData.password !== formData.confirmPassword) {
+      alert('Passwords do not match')
+      return
+    }
+
+    try {
+      // Send only the fields required by your backend
+      const payload = {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      }
+
+      const result = await registerUser(payload)
+
+      console.log('Registered:', result)
+      alert('Registration successful!')
+
+      // Navigate to dashboard after success
+      navigate('/dashboard')
+    } catch (error) {
+      console.error(error)
+      alert('Registration failed')
+    }
+  }
   return (
     <div className="flex flex-col lg:flex-row min-h-screen w-full bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100">
       {/* SIDEBAR */}
@@ -56,22 +99,22 @@ function Register() {
           <form className="space-y-8" onSubmit={handleSubmit}>
             {/* ORG DETAILS */}
             <section>
-              <h3 className="font-bold mb-4">Organization Details</h3>
+  <h3 className="font-bold mb-4">Organization Details</h3>
 
-              <input
-                type="text"
-                placeholder="Organization Name"
-                className="w-full p-3 border rounded-lg mb-4"
-              />
+  <input
+    type="text"
+    placeholder="Organization Name"
+    className="w-full p-3 border rounded-lg mb-4 text-black"
+  />
 
-              <select className="w-full p-3 border rounded-lg mb-4">
-                <option>Select Type</option>
-                <option>NGO</option>
-                <option>College</option>
-                <option>Government</option>
-                <option>Private</option>
-              </select>
-            </section>
+  <select className="w-full p-3 border rounded-lg mb-4 text-black">
+    <option>Select Type</option>
+    <option>NGO</option>
+    <option>College</option>
+    <option>Government</option>
+    <option>Private</option>
+  </select>
+</section>
 
             {/* CONTACT */}
             <section>
@@ -91,21 +134,22 @@ function Register() {
             </section>
 
             {/* PASSWORD */}
-            <section>
-              <h3 className="font-bold mb-4">Security</h3>
+           {/* PASSWORD */}
+<section>
+  <h3 className="font-bold mb-4 text-black">Security</h3>
 
-              <input
-                type="password"
-                placeholder="Password"
-                className="w-full p-3 border rounded-lg mb-4"
-              />
+  <input
+    type="password"
+    placeholder="Password"
+    className="w-full p-3 border rounded-lg mb-4 text-black"
+  />
 
-              <input
-                type="password"
-                placeholder="Confirm Password"
-                className="w-full p-3 border rounded-lg"
-              />
-            </section>
+  <input
+    type="password"
+    placeholder="Confirm Password"
+    className="w-full p-3 border rounded-lg text-black"
+  />
+</section>
 
             {/* BUTTON */}
             <button

@@ -9,18 +9,18 @@ function Navbar() {
       </div>
 
       <nav className="hidden md:flex gap-8">
-        <a href="#features" className="hover:text-primary text-sm font-medium">
+        <a href="/#features" className="hover:text-primary text-sm font-medium">
           Features
         </a>
 
         <a
-          href="#how-it-works"
+          href="/#how-it-works"
           className="hover:text-primary text-sm font-medium"
         >
           How it Works
         </a>
 
-        <a href="#user-flow" className="hover:text-primary text-sm font-medium">
+        <a href="/#user-flow" className="hover:text-primary text-sm font-medium">
           User Flow
         </a>
       </nav>

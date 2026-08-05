@@ -1,6 +1,7 @@
 // src/pages/VerificationStatus.jsx
 import { useState } from "react";
 import Sidebar from "../../components/common/Sidebar";
+import { useNavigate } from 'react-router-dom'
 
 const FILTERS = ["All Actions", "Pending", "Approved", "Rejected"];
 
@@ -35,7 +36,7 @@ export default function VerificationStatus() {
       a.type.toLowerCase().includes(search.toLowerCase());
     return matchFilter && matchSearch;
   });
-
+  const navigate = useNavigate()
   return (
     <div className="flex min-h-screen bg-slate-100 font-sans">
       <Sidebar />
@@ -47,7 +48,9 @@ export default function VerificationStatus() {
             <h1 className="text-xl font-medium text-slate-900">Verification Status</h1>
             <p className="text-xs text-slate-500 mt-0.5">Track your environmental impact validation progress.</p>
           </div>
-          <button className="flex items-center gap-1.5 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-xs font-medium transition-colors">
+          <button 
+          onClick={() => navigate('/submit')}
+          className="flex items-center gap-1.5 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-xs font-medium transition-colors">
             <span className="text-sm">⊕</span> Submit New Action
           </button>
         </header>
