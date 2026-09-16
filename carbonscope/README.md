@@ -1,16 +1,57 @@
-# React + Vite
+# CarbonScope
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A redesigned environmental action workspace built with React 19, React Router, and Vite. Forest green, warm ivory, nature imagery, responsive layouts, and motion that respects `prefers-reduced-motion`.
 
-Currently, two official plugins are available:
+## Run
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```sh
+npm ci
+npm run dev
+```
 
-## React Compiler
+Production check: `npm run build`. Code check: `npm run lint`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Entry and session flow
 
-## Expanding the ESLint configuration
+- `/` is the public introduction page. It explains the purpose, workflow, supported action categories, and evidence model before asking visitors to join.
+- `/register` creates a local demonstration profile and then sends the visitor to `/login`.
+- `/login` opens the workspace only when the entered email matches the profile saved on that device.
+- Workspace routes redirect signed-out visitors to `/login`. The session lasts for the current browser tab and can be ended from the sidebar.
+- This is a frontend demonstration session, not secure authentication. Production use requires the backend to provide identity, password/session handling, authorization, and account recovery.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Screens
+
+- `/`: public marketing and product-introduction page.
+- `/dashboard`: signed-in overview, calculated metrics, selectable chart period, category distribution, recent actions, CSV export.
+- `/submit`: three-step submission with field validation, a saved draft, image/PDF evidence, review, and local persistence.
+- `/status` and `/verification`: search, status filters, sorting, pagination, details, and filtered CSV export.
+- `/wallet`: illustrative credit balance and sample allocation history.
+- `/explore`: activity categories and an explanation of the contribution workflow.
+- `/register`: create a local profile; `/login`: start a local demo session; `/settings`: edit the active profile.
+
+## Functional scope
+
+This is a fully interactive **local frontend demo**, not a production verification or authentication system. It starts with ten clearly labeled sample records. Metrics, chart totals, and wallet history derive from those records. New submissions are saved with `Pending` status and zero credits/verified impact. No real carbon credits are issued, traded, or certified.
+
+Profiles, submissions, and drafts use browser local storage (`cs-profile`, `cs-actions`, `cs-draft`). No passwords are collected. Evidence is a PNG, JPEG, or PDF of at most 2 MB and is kept in local storage with the submission. Browser quota errors are shown to the user without claiming a successful save. Evidence is not included in saved drafts; add it in step two. Data does not sync between devices, browsers, or origins.
+
+The existing `src/services` API helpers are preserved for future integration. The redesigned demo does not call them. They still describe the original backend at `http://localhost:8080/api/v1`; connect them only after confirming the actual API contract, session/authentication behavior, storage, and verification workflow.
+
+## Source map
+
+- `src/App.jsx`: routes, page components, shared interface components, and local state orchestration.
+- `src/data.js`: sample records, formatting, local storage reads, and CSV export.
+- `src/styles.css`: responsive visual system and animation.
+- `src/main.jsx`: application entry point.
+- `public/forest.png` and `public/planting.png`: generated project-owned visual assets.
+
+Images are served locally. Google Fonts supplies Manrope and DM Sans; the app falls back to sans-serif if fonts cannot load. Deployments need SPA route fallback to `index.html`.
+
+## Verification performed
+
+- Production build and ESLint pass.
+- Desktop and phone layout inspected in the browser; mobile table overflow corrected.
+- Required fields, evidence-required validation, draft persistence after reload, combined status/location filtering, and detail dialog checked.
+- Completed the production upload-to-submission journey with a synthetic PNG: evidence preview, review confirmation, submission, `Pending` status, updated counts, and persistence after a full reload. The initial development file-picker automation stalled; the production retry succeeded. PDF/JPEG variations and storage-quota failure paths were not exercised in the browser.
+
+See `IMAGE-PROMPTS.md` for image provenance and prompts.
